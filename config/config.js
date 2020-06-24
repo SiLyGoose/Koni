@@ -3,5 +3,8 @@ module.exports = {
     mongoURL: process.env.MONGOURL,
     token: process.env.TOKEN,
     prefix: process.env.PREFIX,
-    ipaddr: ""
+    ipaddr: "",
+    channelID: "",
+    messageID: "",
+    notifications: false
 }

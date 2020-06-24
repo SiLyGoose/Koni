@@ -11,10 +11,14 @@ module.exports = {
 
         let setting = args[0] ? args[0].toLowerCase() : undefined;
         let newSetting = args.slice(1).join(' ');
-        Embed.setAuthor(`${message.guild.name} Settings`, message.guild.iconURL({ dynamic: true }));
-        Embed.fields = [];
 
-        var tempvar = [{ EMOJI: '🔢', SETTING: 'IP Address', NAME: 'ipaddr', DESCRIPTION: 'Sets the MC IP Address for the server', EX: "x.x.x.x", UPDATE: 'Valid IP Address (formatted x.x.x.x)', VALID: /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/ },
+        Embed.setAuthor(`${message.guild.name} Settings`, message.guild.iconURL({ dynamic: true }));
+        Embed.fields = [], Embed.description = null, Embed.thumbnail = null;
+
+        var tempvar = [{ EMOJI: '❗', SETTING: 'Prefix', NAME: 'prefix', DESCRIPTION: 'Changes the prefix for the server', EX: '(any prefix)', UPDATE: 'Any characters up to length 4', VALID: /^\S{1,4}/ },
+        { EMOJI: '📳', SETTING: 'Notifications', NAME: 'notifs', DESCRIPTION: 'Toggles server notifications', EX: 'on/off', UPDATE: 'on/off', VALID: /(on|off|true|false)/i },
+        { EMOJI: '📃', SETTING: 'Notification Channel', NAME: 'channelID', DESCRIPTION: 'Sets the channel for server notifications', EX: 'channel id/name', UPDATE: 'Any channel id/mention', VALID: /\d{18}/g },
+        { EMOJI: '🔢', SETTING: 'IP Address', NAME: 'ipaddr', DESCRIPTION: 'Sets the MC IP Address for the server', EX: 'x.x.x.x', UPDATE: 'Valid IP Address (formatted x.x.x.x)', VALID: /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/ },
         { EMOJI: '♻️', SETTING: 'Reset', NAME: 'reset', DESCRIPTION: 'Resets server settings to default' }];
 
         for (let i = 0; i < tempvar.length; i++) {
@@ -22,11 +26,11 @@ module.exports = {
             if (i % 2 == 0) Embed.addField('\u200B', '\u200B', true);
         }
 
-        const selected = tempvar.find(s => s.NAME === setting);
+        const selected = tempvar.find(s => s.NAME.toLowerCase() === setting);
         if (selected) {
             if (!newSetting) {
                 if (setting === 'reset') {
-                    await message.channel.send(`**⚠️ Reset all settings to default? (y/n)**`)
+                    await message.channel.send(`**⚠️ Reset all settings to default? (y/n) \`10s\`**`)
                     const collector = new Discord.MessageCollector(message.channel, filter => filter.author.id === message.author.id, { time: 10000, max: 1 });
 
                     collector.on('collect', m => {
@@ -49,9 +53,12 @@ module.exports = {
                 try {
                     if (selected.VALID.test(newSetting)) {
                         var object = {};
+
+                        if (selected.NAME === 'notifs') newSetting = /(true|on)/i.test(newSetting) ? true : false;
                         object[selected.NAME] = newSetting;
+
                         await bot.updateGuild(message.guild, object);
-                        return message.channel.send(`**☑️ Updated \`${selected.SETTING}\` to \`${newSetting.toLowerCase()}\`!**`)
+                        return message.channel.send(`**☑️ Updated \`${selected.SETTING}\` to \`${typeof newSetting === 'boolean' ? newSetting ? 'on' : 'off' : newSetting}\`!**`)
                     } else {
                         return message.channel.send(`Valid Settings for **${selected.SETTING}**: \`${selected.EX}\``)
                     }

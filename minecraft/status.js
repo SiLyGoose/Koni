@@ -10,6 +10,8 @@ module.exports = {
 
         return await ping(IPaddr, 25565, (err, res) => {
             if (err) throw err;
+
+            Embed.fields = [], Embed.description = null, Embed.thumbnail = null;
             message.channel.send(Embed.setTitle(`${res.host}:${res.port}`)
                 .addField(`Server Status`, `\`\`\`ini\n[Version]\n${res.version}\n[MOTD]\n${res.descriptionText}\`\`\``)
                 .addField(`Player Status`, `\`\`\`ini\n[Online]\n${res.onlinePlayers}\n[Offline]\n${res.maxPlayers - res.onlinePlayers}\`\`\``)

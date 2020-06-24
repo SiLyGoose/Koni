@@ -9,6 +9,7 @@ module.exports = async (bot, guild) => {
                 break channelLoop;
             }
         }
+        await bot.updateGuild(guild, { channelID: channelID });
         let channel = bot.channels.cache.get(channelID);
         channel.send(`**Thank you for adding me!** <:HYPERAYAYA:579342448627679232>
 \`»\` My prefix here is \`${settings.prefix}\`

@@ -9,6 +9,15 @@ const guildSchema = mongoose.Schema({
     },
     ipaddr: {
         type: String, default: config.ipaddr
+    },
+    channelID: {
+        type: String, default: config.channelID
+    },
+    notifs: {
+        type: Boolean, default: config.notifications
+    },
+    messageID: {
+        type: String, default: config.messageID
     }
 });
 
