@@ -1,16 +1,13 @@
-const { BOT_HEX } = require('../../botconfig'), Embed = new (require('discord.js')).MessageEmbed();
 module.exports = async (bot, message) => {
     if (message.author.bot) return;
+    if (message.channel.type === "dm")
+        return message.author.send('**❌ Please use me in a designated server!**');
 
-    const settings = bot.config;
+    const settings = await bot.getGuild(message.guild);
+    const { prefix } = settings;
 
     let content = message.content.toLowerCase();
     if (!content.toLowerCase().startsWith(prefix) || content.toLowerCase() === prefix) return;
-
-    if (message.channel.type === "dm") {
-        return message.guild.member(message.guild.members.get(message.member) || message.member)
-            .send('**❌ Please use commands in a designated server!**');
-    }
 
     let args = content.slice(settings.prefix.length).trim().split(/\s+/g);
     let cmd = args.shift();
