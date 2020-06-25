@@ -6,5 +6,6 @@ module.exports = {
     ipaddr: "",
     channelID: "",
     messageID: "",
+    lastKnownVersion: "",
     notifications: false
 }

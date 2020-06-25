@@ -45,7 +45,7 @@ module.exports = {
                 } else {
                     Embed.fields = [];
                     return message.channel.send(Embed.setDescription(selected.DESCRIPTION)
-                        .addField(`✅ Current ${selected.SETTING}`, `\`${settings[selected.NAME] || 'Nothing set'}\``)
+                        .addField(`✅ Current ${typeof selected.SETTING === 'boolean' ? selected.SETTING ? 'on' : 'off' : selected.SETTING}`, `\`${settings[selected.NAME] || 'Nothing set'}\``)
                         .addField(`✏ Update:`, `\`${settings.prefix}settings ${selected.NAME} ${selected.EX}\``)
                         .addField(`⭕ Valid Settings:`, `\`${selected.UPDATE}\``));
                 }

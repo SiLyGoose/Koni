@@ -9,13 +9,13 @@ module.exports = {
         if (!IPaddr) return message.channel.send(`**⭕ No available IP addresses set for this server! Use \`${bot.config.prefix}settings ipaddr\` to set it!**`)
 
         return await ping(IPaddr, 25565, (err, res) => {
-            if (err) throw err;
-
             Embed.fields = [], Embed.description = null, Embed.thumbnail = null;
-            message.channel.send(Embed.setTitle(`${res.host}:${res.port}`)
-                .addField(`Server Status`, `\`\`\`ini\n[Version]\n${res.version}\n[MOTD]\n${res.descriptionText}\`\`\``)
-                .addField(`Player Status`, `\`\`\`ini\n[Online]\n${res.onlinePlayers}\n[Offline]\n${res.maxPlayers - res.onlinePlayers}\`\`\``)
-                .setThumbnail("https://lh3.googleusercontent.com/VSwHQjcAttxsLE47RuS4PqpC4LT7lCoSjE7Hx5AW_yCxtDvcnsHHvm5CTuL5BPN-uRTP"));
+            if (err) return message.channel.send("**💥 Error connecting to server, please try again shortly!**")
+
+                message.channel.send(Embed.setTitle(`${res.host}:${res.port}`)
+                    .addField(`Server Status`, `\`\`\`ini\n[Version]\n${res.version}\n[MOTD]\n${res.descriptionText}\`\`\``)
+                    .addField(`Player Status`, `\`\`\`ini\n[Online]\n${res.onlinePlayers}\n[Offline]\n${res.maxPlayers - res.onlinePlayers}\`\`\``)
+                    .setThumbnail("https://lh3.googleusercontent.com/VSwHQjcAttxsLE47RuS4PqpC4LT7lCoSjE7Hx5AW_yCxtDvcnsHHvm5CTuL5BPN-uRTP"));
         });
     }
 }

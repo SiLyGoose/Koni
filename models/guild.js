@@ -3,7 +3,6 @@ const mongoose = require('mongoose'), config = require('../config/config.js');
 const guildSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     guildID: String,
-    guildName: String,
     prefix: {
         type: String, default: config.prefix
     },
@@ -18,6 +17,9 @@ const guildSchema = mongoose.Schema({
     },
     messageID: {
         type: String, default: config.messageID
+    },
+    lastKnownVersion: {
+        type: String, default: config.lastKnownVersion
     }
 });
 
