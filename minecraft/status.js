@@ -18,7 +18,7 @@ module.exports = {
             for (let i = 0; i < res.samplePlayers.length; i++) {
                 let playerName = res.samplePlayers[i].name;
                 let filter = playerNames.filter(x => { return x.ign === playerName })
-                names.push(filter.irl || playerName);
+                names.push(filter[0].irl || playerName);
             }
 
             message.channel.send(Embed.setTitle(`${res.host}:${res.port}`)
