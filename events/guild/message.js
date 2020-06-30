@@ -6,11 +6,11 @@ module.exports = async (bot, message) => {
     const settings = await bot.getGuild(message.guild);
     const { prefix } = settings;
 
-    let content = message.content.toLowerCase();
+    let content = message.content;
     if (!content.toLowerCase().startsWith(prefix) || content.toLowerCase() === prefix) return;
 
     let args = content.slice(settings.prefix.length).trim().split(/\s+/g);
-    let cmd = args.shift();
+    let cmd = args.shift().toLowerCase();
 
     let commandfile = bot.commands.get(cmd) || bot.commands.get(bot.aliases.get(cmd));
 

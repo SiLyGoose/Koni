@@ -12,10 +12,19 @@ module.exports = {
             Embed.fields = [], Embed.description = null, Embed.thumbnail = null;
             if (err) return message.channel.send("**💥 Error connecting to server, please try again shortly!**")
 
-                message.channel.send(Embed.setTitle(`${res.host}:${res.port}`)
-                    .addField(`Server Status`, `\`\`\`ini\n[Version]\n${res.version}\n[MOTD]\n${res.descriptionText}\`\`\``)
-                    .addField(`Player Status`, `\`\`\`ini\n[Online]\n${res.onlinePlayers}\n[Offline]\n${res.maxPlayers - res.onlinePlayers}\`\`\``)
-                    .setThumbnail("https://lh3.googleusercontent.com/VSwHQjcAttxsLE47RuS4PqpC4LT7lCoSjE7Hx5AW_yCxtDvcnsHHvm5CTuL5BPN-uRTP"));
+            let playerNames = settings.userList;
+            let names = [];
+
+            for (let i = 0; i < res.samplePlayers.length; i++) {
+                let playerName = res.samplePlayers[i].name;
+                let filter = playerNames.filter(x => { return x.ign === playerName })
+                names.push(filter.irl || playerName);
+            }
+
+            message.channel.send(Embed.setTitle(`${res.host}:${res.port}`)
+                .addField(`Server Status`, `\`\`\`ini\n[Version]\n${res.version}\n[MOTD]\n${res.descriptionText}\`\`\``)
+                .addField(`Player Status`, `\`\`\`ini\n[Online (${res.onlinePlayers})]\n${names.sort().join('\n')}\n[Offline]\n${playerNames.length - names.length}\`\`\``)
+                .setThumbnail("https://lh3.googleusercontent.com/VSwHQjcAttxsLE47RuS4PqpC4LT7lCoSjE7Hx5AW_yCxtDvcnsHHvm5CTuL5BPN-uRTP"));
         });
     }
 }

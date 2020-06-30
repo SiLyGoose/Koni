@@ -20,6 +20,9 @@ const guildSchema = mongoose.Schema({
     },
     lastKnownVersion: {
         type: String, default: config.lastKnownVersion
+    },
+    userList: {
+        type: Array, default: config.userList
     }
 });
 

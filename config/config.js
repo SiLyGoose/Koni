@@ -7,5 +7,6 @@ module.exports = {
     channelID: "",
     messageID: "",
     lastKnownVersion: "",
-    notifications: false
+    notifications: false,
+    userList: []
 }

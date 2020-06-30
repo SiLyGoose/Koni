@@ -16,9 +16,11 @@ module.exports = {
         Embed.fields = [], Embed.description = null, Embed.thumbnail = null;
 
         var tempvar = [{ EMOJI: '❗', SETTING: 'Prefix', NAME: 'prefix', DESCRIPTION: 'Changes the prefix for the server', EX: '(any prefix)', UPDATE: 'Any characters up to length 4', VALID: /^\S{1,4}/ },
+        { EMOJI: '🔢', SETTING: 'IP Address', NAME: 'ipaddr', DESCRIPTION: 'Sets the MC IP Address for the server', EX: 'x.x.x.x', UPDATE: 'Valid IP Address (formatted x.x.x.x)', VALID: /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/ },
         { EMOJI: '📳', SETTING: 'Notifications', NAME: 'notifs', DESCRIPTION: 'Toggles server notifications', EX: 'on/off', UPDATE: 'on/off', VALID: /(on|off|true|false)/i },
         { EMOJI: '📃', SETTING: 'Notification Channel', NAME: 'channelID', DESCRIPTION: 'Sets the channel for server notifications', EX: 'channel id/name', UPDATE: 'Any channel id/mention', VALID: /\d{18}/g },
-        { EMOJI: '🔢', SETTING: 'IP Address', NAME: 'ipaddr', DESCRIPTION: 'Sets the MC IP Address for the server', EX: 'x.x.x.x', UPDATE: 'Valid IP Address (formatted x.x.x.x)', VALID: /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/ },
+        { EMOJI: '🇦', SETTING: 'Add Players', NAME: 'add', DESCRIPTION: 'Adds players to the `status` popup (CASE SENSITIVE)', EX: 'ign name', UPDATE: 'MC ign and IRL name', VALID: /\w+\s\w+/g },
+        { EMOJI: '🇷', SETTING: 'Remove Players', NAME: 'remove', DESCRIPTION: 'Removes players from the `status` popup (CASE SENSITIVE)', EX: 'name', UPDATE: 'IRL name', VALID: /\w+/ },
         { EMOJI: '♻️', SETTING: 'Reset', NAME: 'reset', DESCRIPTION: 'Resets server settings to default' }];
 
         for (let i = 0; i < tempvar.length; i++) {
@@ -44,17 +46,39 @@ module.exports = {
                     });
                 } else {
                     Embed.fields = [];
+                    let currentSetting = "";
+                    let settingName = settings[selected.NAME];
+                    if (Array.isArray(settingName)) {
+                        for (let i = 0; i < settingName; i++) {
+                            currentSetting += `${settingName.ign} (${settingName.irl})` + (i + 1 >= settingName.length ? "" : ", ");
+                        }
+                    }
                     return message.channel.send(Embed.setDescription(selected.DESCRIPTION)
-                        .addField(`✅ Current ${typeof selected.SETTING === 'boolean' ? selected.SETTING ? 'on' : 'off' : selected.SETTING}`, `\`${settings[selected.NAME] || 'Nothing set'}\``)
+                        .addField(`✅ Current ${typeof selected.SETTING === 'boolean'
+                            ? selected.SETTING
+                                ? 'on'
+                                : 'off'
+                            : selected.SETTING.replace(/(add|remove)\s{1}/gi, "")}`, `\`${currentSetting || settingName || 'Nothing Set'}\``)
                         .addField(`✏ Update:`, `\`${settings.prefix}settings ${selected.NAME} ${selected.EX}\``)
                         .addField(`⭕ Valid Settings:`, `\`${selected.UPDATE}\``));
                 }
             } else {
                 try {
                     if (selected.VALID.test(newSetting)) {
-                        var object = {};
 
                         if (selected.NAME === 'notifs') newSetting = /(true|on)/i.test(newSetting) ? true : false;
+                        else if (selected.NAME === 'add' || selected.NAME === 'remove') {
+                            let guild = await bot.getGuild(message.guild);
+                            let userList = guild.userList || [];
+                            let arguments = newSetting.split(' ');
+                            var userObject = { ign: arguments[0], irl: arguments[1] };
+                            userList.push(userObject);
+                            let names = "";
+                            for (let i = 0; i < userList.length; i++) names += `${userList[i].ign} (${userList[i].irl})` + (i + 1 >= userList.length ? " " : ", ");
+                            await bot.updateGuild(message.guild, { userList: userList });
+                            return message.channel.send(`**☑️ Updated \`${selected.SETTING.replace(/(add|remove)\s{1}/gi, "")}\`: ${names.trim()}**`)
+                        }
+                        var object = {};
                         object[selected.NAME] = newSetting;
 
                         await bot.updateGuild(message.guild, object);
