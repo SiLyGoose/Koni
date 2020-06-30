@@ -24,7 +24,7 @@ module.exports = {
             message.channel.send(Embed.setTitle(`${res.host}:${res.port}`)
                 .addField(`Server Status`, `\`\`\`ini\n[Version]\n${res.version}\n[MOTD]\n${res.descriptionText}\`\`\``)
                 .addField(`Player Status`, `\`\`\`ini\n[Online (${res.onlinePlayers})]\n${names.sort().join('\n')}\n[Offline]\n${playerNames.length - names.length}\`\`\``)
-                .setThumbnail("https://lh3.googleusercontent.com/VSwHQjcAttxsLE47RuS4PqpC4LT7lCoSjE7Hx5AW_yCxtDvcnsHHvm5CTuL5BPN-uRTP"));
+                .setThumbnail(err || res.favicon.length > 2048 ? "https://lh3.googleusercontent.com/VSwHQjcAttxsLE47RuS4PqpC4LT7lCoSjE7Hx5AW_yCxtDvcnsHHvm5CTuL5BPN-uRTP" : res.favicon));
         });
     }
 }
