@@ -10,16 +10,21 @@ module.exports = {
 
         return await ping(IPaddr, 25565, (err, res) => {
             Embed.fields = [], Embed.description = null, Embed.thumbnail = null;
-            if (err) return message.channel.send("**💥 Error connecting to server, please try again shortly!**")
+            if (err) {
+                console.log(err)
+                return message.channel.send("**💥 Error connecting to server, please try again shortly!**")
+            }
 
             let playerNames = settings.userList;
             let names = [];
 
-            for (let i = 0; i < res.samplePlayers.length; i++) {
-                let playerName = res.samplePlayers[i].name;
-                let filter = playerNames.filter(x => { return x.ign === playerName })
-                names.push(filter[0].irl || playerName);
-            }
+            if (res.samplePlayers) {
+                for (let i = 0; i < res.samplePlayers.length; i++) {
+                    let playerName = res.samplePlayers[i].name;
+                    let filter = playerNames.filter(x => { return x.ign === playerName })
+                    names.push(filter[0].irl || playerName);
+                }
+            } else names.push('None');
 
             message.channel.send(Embed.setTitle(`${res.host}:${res.port}`)
                 .addField(`Server Status`, `\`\`\`ini\n[Version]\n${res.version}\n[MOTD]\n${res.descriptionText}\`\`\``)

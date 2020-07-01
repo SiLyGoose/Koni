@@ -20,11 +20,13 @@ module.exports = async bot => {
                     let playerNames = settings.userList;
                     let names = [];
 
-                    for (let i = 0; i < res.samplePlayers.length; i++) {
-                        let playerName = res.samplePlayers[i].name;
-                        let filter = playerNames.filter(x => { return x.ign === playerName })
-                        names.push(filter[0].irl || playerName);
-                    }
+                    if (res.samplePlayers) {
+                        for (let i = 0; i < res.samplePlayers.length; i++) {
+                            let playerName = res.samplePlayers[i].name;
+                            let filter = playerNames.filter(x => { return x.ign === playerName })
+                            names.push(filter[0].irl || playerName);
+                        }
+                    } else names.push('None');
 
                     Embed.setThumbnail(err || res.favicon.length > 2048 ? "https://lh3.googleusercontent.com/VSwHQjcAttxsLE47RuS4PqpC4LT7lCoSjE7Hx5AW_yCxtDvcnsHHvm5CTuL5BPN-uRTP" : res.favicon)
                         .setTitle(err ? "Server Down" : `${res.host}:${res.port}`)
