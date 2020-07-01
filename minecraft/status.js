@@ -10,10 +10,7 @@ module.exports = {
 
         return await ping(IPaddr, 25565, (err, res) => {
             Embed.fields = [], Embed.description = null, Embed.thumbnail = null;
-            if (err) {
-                console.log(err)
-                return message.channel.send("**💥 Error connecting to server, please try again shortly!**")
-            }
+            if (err) return message.channel.send("**💥 Error connecting to server, please try again shortly!**")
 
             let playerNames = settings.userList;
             let names = [];

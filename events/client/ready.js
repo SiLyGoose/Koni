@@ -1,5 +1,5 @@
 const { BOT_HEX } = require('../../botconfig.json'), Embed = new (require('discord.js')).MessageEmbed().setColor(BOT_HEX),
-    ping = require('minecraft-server-util');
+    ping = require('minecraft-server-util'), OH = require('bukkit-openhab-client');
 module.exports = async bot => {
     bot.user.setPresence({ activity: { name: `Mindcraft | ${bot.config.prefix}help`, type: 'WATCHING' }, status: 'idle' });
 
@@ -13,25 +13,26 @@ module.exports = async bot => {
                 let channel = bot.channels.cache.get(settings.channelID.match(/\d{18}/g)[0]);
 
                 return await ping(settings.ipaddr, 25565, (err, res) => {
-                    if (err) return;
                     Embed.fields = [], Embed.description = null, Embed.thumbnail = null;
 
 
                     let playerNames = settings.userList;
                     let names = [];
 
-                    if (res.samplePlayers) {
-                        for (let i = 0; i < res.samplePlayers.length; i++) {
-                            let playerName = res.samplePlayers[i].name;
-                            let filter = playerNames.filter(x => { return x.ign === playerName })
-                            names.push(filter[0].irl || playerName);
+                    if (!err) {
+                        if (res.samplePlayers) {
+                            for (let i = 0; i < res.samplePlayers.length; i++) {
+                                let playerName = res.samplePlayers[i].name;
+                                let filter = playerNames.filter(x => { return x.ign === playerName })
+                                names.push(filter[0].irl || playerName);
+                            }
                         }
                     }
 
                     Embed.setThumbnail(err || res.favicon.length > 2048 ? "https://lh3.googleusercontent.com/VSwHQjcAttxsLE47RuS4PqpC4LT7lCoSjE7Hx5AW_yCxtDvcnsHHvm5CTuL5BPN-uRTP" : res.favicon)
                         .setTitle(err ? "Server Down" : `${res.host}:${res.port}`)
-                        .addField(`Server Status`, `\`\`\`ini\n[Version]\n${err ? settings.lastKnownVersion : res.version}\n[MOTD]\n${err ? "Unavailable" : res.descriptionText}\`\`\``)
-                        .addField(`Player Status`, `\`\`\`ini\n[Online (${res.onlinePlayers})]\n${names.sort().join('\n') || 'None'}\n[Offline]\n${playerNames.length - names.length}\`\`\``)
+                        .addField(`Server Status`, `\`\`\`ini\n[Version]\n${err ? settings.lastKnownVersion || "Unavailable" : res.version}\n[MOTD]\n${err ? "Unavailable" : res.descriptionText}\`\`\``)
+                        .addField(`Player Status`, `\`\`\`ini\n[Online (${res.onlinePlayers})]\n${err ? "Unavailable" : names.sort().join('\n') || 'None'}\n[Offline]\n${err ? "Unavailable" : playerNames.length - names.length}\`\`\``)
 
                     try {
                         if (channel.lastMessage.embeds[0].fields[0].value != Embed.fields[0].value ||
