@@ -1,5 +1,5 @@
 const { BOT_HEX } = require('../../botconfig.json'), Embed = new (require('discord.js')).MessageEmbed().setColor(BOT_HEX),
-    ping = require('minecraft-server-util'), OH = require('bukkit-openhab-client');
+    ping = require('minecraft-server-util');
 module.exports = async bot => {
     bot.user.setPresence({ activity: { name: `Mindcraft | ${bot.config.prefix}help`, type: 'WATCHING' }, status: 'idle' });
 
