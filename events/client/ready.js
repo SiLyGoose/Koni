@@ -39,7 +39,9 @@ module.exports = async bot => {
                             channel.lastMessage.embeds[0].fields[1].value != Embed.fields[1].value) {
                             channel.messages.fetch(settings.messageID).then(m => {
                                 if (channel.lastMessageID === settings.messageID) {
-                                    m.edit(Embed);
+                                    m.edit(Embed).then(async msg => {
+                                        await bot.updateGuild(Guild, { messageID: msg.id, lastKnownVersion: err ? settings.lastKnownVersion : res.version });
+                                    });
                                 } else {
                                     m.delete();
                                     channel.send(Embed).then(async msg => {
