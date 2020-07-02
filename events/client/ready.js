@@ -38,12 +38,12 @@ module.exports = async bot => {
                                 if (channel.lastMessageID === settings.messageID) {
                                     m.edit(Embed).then(async () => {
                                         await bot.updateGuild(Guild, { lastKnownVersion: err ? settings.lastKnownVersion : res.version });
-                                    });
+                                    }).catch(console.error);
                                 } else {
-                                    m.delete();
+                                    m.delete().catch(console.error);
                                     channel.send(Embed).then(async msg => {
                                         await bot.updateGuild(Guild, { messageID: msg.id, lastKnownVersion: err ? settings.lastKnownVersion : res.version });
-                                    });
+                                    }).catch(console.error);
                                 }
                             });
                         }
@@ -51,15 +51,15 @@ module.exports = async bot => {
                         channel.messages.fetch(settings.messageID).then(m => {
                             if (m.embeds[0].fields[0].value != Embed.fields[0].value ||
                                 m.embeds[0].fields[1].value != Embed.fields[1].value) {
-                                m.delete();
+                                m.delete().catch(console.error);
                                 channel.send(Embed).then(async msg => {
                                     await bot.updateGuild(Guild, { messageID: msg.id, lastKnownVersion: err ? settings.lastKnownVersion : res.version });
-                                });
+                                }).catch(console.error);
                             }
                         }).catch(() => {
                             channel.send(Embed).then(async msg => {
                                 await bot.updateGuild(Guild, { messageID: msg.id, lastKnownVersion: err ? settings.lastKnownVersion : res.version });
-                            });
+                            }).catch(console.error);
                         });
                     }
                 });
