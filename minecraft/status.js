@@ -10,7 +10,7 @@ module.exports = {
 
         return await ping(IPaddr, 25565, (err, res) => {
             Embed.fields = [], Embed.description = null, Embed.thumbnail = null;
-            if (err) return message.channel.send("**💥 Error connecting to server, please try again shortly!**")
+            if (err) { console.log(err); return message.channel.send("**💥 Error connecting to server, please try again shortly!**"); }
 
             let playerNames = settings.userList;
             let names = [];
@@ -31,7 +31,7 @@ module.exports = {
                 .addField(`Server Status`, `\`\`\`ini\n[Version]\n${res.version}\n[MOTD]\n${res.descriptionText}\`\`\``)
                 .addField(`Player Status`, `\`\`\`ini\n[Online (${res.onlinePlayers})]\n${names.sort().join('\n') || 'None'}\n[Offline]\n${playerNames.length - names.length}\`\`\``)
                 .setThumbnail(err || res.favicon.length > 2048 ? "https://lh3.googleusercontent.com/VSwHQjcAttxsLE47RuS4PqpC4LT7lCoSjE7Hx5AW_yCxtDvcnsHHvm5CTuL5BPN-uRTP" : res.favicon)).then(async msg => {
-                    await bot.updateGuild(Guild, { messageID: msg.id, lastKnownVersion: err ? settings.lastKnownVersion : res.version });
+                    await bot.updateGuild(message.guild, { messageID: msg.id, lastKnownVersion: err ? settings.lastKnownVersion : res.version });
                 });
         });
     }

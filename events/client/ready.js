@@ -15,7 +15,6 @@ module.exports = async bot => {
                 return await ping(settings.ipaddr, 25565, (err, res) => {
                     Embed.fields = [], Embed.description = null, Embed.thumbnail = null;
 
-
                     let playerNames = settings.userList;
                     let names = [];
 
