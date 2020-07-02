@@ -3,6 +3,7 @@ module.exports = {
     config: {
         name: "status",
         description: "Provides current MC server stats",
+        aliases: ["st"]
     },
     run: async (bot, message, args, settings) => {
         let IPaddr = settings.ipaddr;
@@ -25,7 +26,7 @@ module.exports = {
 
             message.channel.messages.fetch(settings.messageID).then(m => {
                 m.delete();
-            }).catch(console.error);
+            });
 
             return message.channel.send(Embed.setTitle(`${res.host}:${res.port}`)
                 .addField(`Server Status`, `\`\`\`ini\n[Version]\n${res.version}\n[MOTD]\n${res.descriptionText}\`\`\``)
