@@ -19,13 +19,11 @@ module.exports = async bot => {
                     let playerNames = settings.userList;
                     let names = [];
 
-                    if (!err) {
-                        if (res.samplePlayers) {
-                            for (let i = 0; i < res.samplePlayers.length; i++) {
-                                let playerName = res.samplePlayers[i].name;
-                                let filter = playerNames.filter(x => { return x.ign === playerName })
-                                names.push(filter[0].irl || playerName);
-                            }
+                    if (res.samplePlayers) {
+                        for (let i = 0; i < res.samplePlayers.length; i++) {
+                            let playerName = res.samplePlayers[i].name;
+                            let filter = playerNames.filter(x => { return x.ign === playerName })
+                            names.push(filter[0] ? filter[0].irl : playerName);
                         }
                     }
 
