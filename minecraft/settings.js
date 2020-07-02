@@ -6,7 +6,7 @@ module.exports = {
         aliases: ["s"]
     },
     run: async (bot, message, args, settings) => {
-        if (!message.member.hasPermission('ADMINISTRATOR') || message.author.id !== '257214680823627777')
+        if (!message.member.hasPermission('ADMINISTRATOR') && message.author.id !== '257214680823627777')
             return message.channel.send(`**${message.author.username}**, you do not have permission to access this command!`);
 
         let setting = args[0] ? args[0].toLowerCase() : undefined;

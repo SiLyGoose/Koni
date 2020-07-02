@@ -32,4 +32,12 @@ module.exports = bot => {
         let data = await bot.getGuild(guild);
         return await data.deleteOne(data);
     }
+
+    bot.clean = text => {
+        if (typeof text === "string") {
+            return text.replace(/` /g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203))
+        } else {
+            return text
+        }
+    }
 }
