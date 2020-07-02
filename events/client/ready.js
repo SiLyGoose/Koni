@@ -18,7 +18,7 @@ module.exports = async bot => {
                     let playerNames = settings.userList;
                     let names = [];
 
-                    if (res.samplePlayers) {
+                    if (res && res.samplePlayers) {
                         for (let i = 0; i < res.samplePlayers.length; i++) {
                             let playerName = res.samplePlayers[i].name;
                             let filter = playerNames.filter(x => { return x.ign === playerName })
@@ -47,7 +47,8 @@ module.exports = async bot => {
                                 }).catch(console.error);
                             }
                         }
-                    }).catch(() => {
+                    }).catch(err => {
+                        console.log(err)
                         channel.send(Embed).then(async msg => {
                             await bot.updateGuild(Guild, { messageID: msg.id, lastKnownVersion: err ? settings.lastKnownVersion : res.version });
                         }).catch(console.error);
