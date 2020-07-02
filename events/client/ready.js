@@ -32,8 +32,8 @@ module.exports = async bot => {
                         .addField(`Player Status`, `\`\`\`ini\n[Online (${err ? "" : res.onlinePlayers})]\n${err ? "Unavailable" : names.sort().join('\n') || 'None'}\n[Offline]\n${err ? "Unavailable" : playerNames.length - names.length}\`\`\``)
 
                     try {
-                        if (channel.lastMessage.embeds[0].fields[0].value != Embed.fields[0].value ||
-                            channel.lastMessage.embeds[0].fields[1].value != Embed.fields[1].value) {
+                        if ((channel.lastMessage.embeds[0].fields[0].value != Embed.fields[0].value ||
+                            channel.lastMessage.embeds[0].fields[1].value != Embed.fields[1].value) && channel.lastMessage.author.id !== bot.user.id) {
                             channel.messages.fetch(settings.messageID).then(m => {
                                 if (channel.lastMessageID === settings.messageID) {
                                     m.edit(Embed).then(async () => {
@@ -51,7 +51,7 @@ module.exports = async bot => {
                         channel.messages.fetch(settings.messageID).then(m => {
                             if (m.embeds[0].fields[0].value != Embed.fields[0].value ||
                                 m.embeds[0].fields[1].value != Embed.fields[1].value) {
-                                m.delete().catch(console.error);
+                                m.delete();
                                 channel.send(Embed).then(async msg => {
                                     await bot.updateGuild(Guild, { messageID: msg.id, lastKnownVersion: err ? settings.lastKnownVersion : res.version });
                                 });
@@ -59,7 +59,7 @@ module.exports = async bot => {
                         }).catch(() => {
                             channel.send(Embed).then(async msg => {
                                 await bot.updateGuild(Guild, { messageID: msg.id, lastKnownVersion: err ? settings.lastKnownVersion : res.version });
-                            })
+                            });
                         });
                     }
                 });
