@@ -23,10 +23,16 @@ module.exports = {
                 }
             }
 
-            message.channel.send(Embed.setTitle(`${res.host}:${res.port}`)
+            message.channel.messages.fetch(settings.messageID).then(m => {
+                m.delete();
+            }).catch(console.error);
+
+            return message.channel.send(Embed.setTitle(`${res.host}:${res.port}`)
                 .addField(`Server Status`, `\`\`\`ini\n[Version]\n${res.version}\n[MOTD]\n${res.descriptionText}\`\`\``)
                 .addField(`Player Status`, `\`\`\`ini\n[Online (${res.onlinePlayers})]\n${names.sort().join('\n') || 'None'}\n[Offline]\n${playerNames.length - names.length}\`\`\``)
-                .setThumbnail(err || res.favicon.length > 2048 ? "https://lh3.googleusercontent.com/VSwHQjcAttxsLE47RuS4PqpC4LT7lCoSjE7Hx5AW_yCxtDvcnsHHvm5CTuL5BPN-uRTP" : res.favicon));
+                .setThumbnail(err || res.favicon.length > 2048 ? "https://lh3.googleusercontent.com/VSwHQjcAttxsLE47RuS4PqpC4LT7lCoSjE7Hx5AW_yCxtDvcnsHHvm5CTuL5BPN-uRTP" : res.favicon)).then(async msg => {
+                    await bot.updateGuild(Guild, { messageID: msg.id, lastKnownVersion: err ? settings.lastKnownVersion : res.version });
+                });
         });
     }
 }
