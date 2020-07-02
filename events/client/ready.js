@@ -31,22 +31,37 @@ module.exports = async bot => {
                         .addField(`Server Status`, `\`\`\`ini\n[Version${err ? " (Last Known)" : ""}]\n${err ? settings.lastKnownVersion || "Unavailable" : res.version}\n[MOTD]\n${err ? "Unavailable" : res.descriptionText}\`\`\``)
                         .addField(`Player Status`, `\`\`\`ini\n[Online (${err ? "" : res.onlinePlayers})]\n${err ? "Unavailable" : names.sort().join('\n') || 'None'}\n[Offline]\n${err ? "Unavailable" : playerNames.length - names.length}\`\`\``)
 
-                    // try {
-
-                    channel.messages.fetch(settings.messageID).then(m => {
-                        if (m.embeds[0].fields[0].value != Embed.fields[0].value ||
-                            m.embeds[0].fields[1].value != Embed.fields[1].value) {
-                            m.delete();
-                            channel.send(Embed).then(async msg => {
-                                await bot.updateGuild(Guild, { messageID: msg.id, lastKnownVersion: err ? settings.lastKnownVersion : res.version });
+                    try {
+                        if (channel.lastMessage.embeds[0].fields[0].value != Embed.fields[0].value ||
+                            channel.lastMessage.embeds[0].fields[1].value != Embed.fields[1].value) {
+                            channel.messages.fetch(settings.messageID).then(m => {
+                                if (channel.lastMessageID === settings.messageID) {
+                                    m.edit(Embed).then(async () => {
+                                        await bot.updateGuild(Guild, { lastKnownVersion: err ? settings.lastKnownVersion : res.version });
+                                    });
+                                } else {
+                                    m.delete();
+                                    channel.send(Embed).then(async msg => {
+                                        await bot.updateGuild(Guild, { messageID: msg.id, lastKnownVersion: err ? settings.lastKnownVersion : res.version });
+                                    });
+                                }
                             });
                         }
-                    }).catch(err => {
-                        console.log(err)
-                        channel.send(Embed).then(async msg => {
-                            await bot.updateGuild(Guild, { messageID: msg.id, lastKnownVersion: err ? settings.lastKnownVersion : res.version });
+                    } catch (err) {
+                        channel.messages.fetch(settings.messageID).then(m => {
+                            if (m.embeds[0].fields[0].value != Embed.fields[0].value ||
+                                m.embeds[0].fields[1].value != Embed.fields[1].value) {
+                                m.delete().catch(console.error);
+                                channel.send(Embed).then(async msg => {
+                                    await bot.updateGuild(Guild, { messageID: msg.id, lastKnownVersion: err ? settings.lastKnownVersion : res.version });
+                                });
+                            }
+                        }).catch(() => {
+                            channel.send(Embed).then(async msg => {
+                                await bot.updateGuild(Guild, { messageID: msg.id, lastKnownVersion: err ? settings.lastKnownVersion : res.version });
+                            })
                         });
-                    });
+                    }
                 });
             }
         });
