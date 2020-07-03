@@ -48,7 +48,7 @@ module.exports = async bot => {
                             }
                         }
                     }).catch(err => {
-                        console.log(err)
+                        console.log(err.stack)
                         channel.send(Embed).then(async msg => {
                             await bot.updateGuild(Guild, { messageID: msg.id, lastKnownVersion: err ? settings.lastKnownVersion : res.version });
                         }).catch(console.error);

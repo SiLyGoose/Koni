@@ -15,9 +15,8 @@ module.exports = bot => {
         if (typeof data !== "object") data = {};
         for (const key in settings) {
             if (data[key] !== settings[key]) data[key] = settings[key];
-            else return;
         }
-        return await data.updateOne(data);
+        return await data.updateOne({ $set: data });
     }
 
     bot.createGuild = async settings => {
