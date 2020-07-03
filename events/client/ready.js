@@ -56,5 +56,5 @@ module.exports = async bot => {
                 });
             }
         });
-    }, 10000);
+    }, 5000);
 }
