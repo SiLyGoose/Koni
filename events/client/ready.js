@@ -34,7 +34,7 @@ module.exports = async bot => {
                     channel.messages.fetch(settings.messageID).then(m => {
                         if (m.embeds[0].fields[0].value != Embed.fields[0].value ||
                             m.embeds[0].fields[1].value != Embed.fields[1].value) {
-                            if (channel.lastMessage.embed && channel.lastMessageID === settings.messageID) {
+                            if (channel.lastMessage.embeds && channel.lastMessageID === settings.messageID) {
                                 if (channel.lastMessage.embeds[0].title === 'Server Down' || channel.lastMessage.embeds[0].title === `${res.host}:${res.port}`) {
                                     m.edit(Embed).then(async () => {
                                         await bot.updateGuild(Guild, { lastKnownVersion: err ? settings.lastKnownVersion : res.version });
