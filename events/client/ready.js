@@ -16,19 +16,24 @@ module.exports = async bot => {
                     Embed.fields = [], Embed.description = null, Embed.thumbnail = null;
 
                     let playerNames = settings.userList;
-                    let names = [];
+                    let names = [], mods = 0;
 
-                    if (res && res.samplePlayers) {
-                        for (let i = 0; i < res.samplePlayers.length; i++) {
-                            let playerName = res.samplePlayers[i].name;
-                            let filter = playerNames.filter(x => { return x.ign === playerName })
-                            names.push(filter[0] ? filter[0].irl : playerName);
+                    if (res) {
+                        if (res.samplePlayers) {
+                            for (let i = 0; i < res.samplePlayers.length; i++) {
+                                let playerName = res.samplePlayers[i].name;
+                                let filter = playerNames.filter(x => { return x.ign === playerName })
+                                names.push(filter[0] ? filter[0].irl : playerName);
+                            }
+                        }
+                        if (res.modList.length) {
+                            for (let l = 0; l < res.modList.length; l++) mods++;
                         }
                     }
 
                     Embed.setThumbnail(err || res.favicon.length > 2048 ? "https://lh3.googleusercontent.com/VSwHQjcAttxsLE47RuS4PqpC4LT7lCoSjE7Hx5AW_yCxtDvcnsHHvm5CTuL5BPN-uRTP" : res.favicon)
                         .setTitle(err ? "Server Down" : `${res.host}:${res.port}`)
-                        .addField(`Server Status`, `\`\`\`ini\n[Version${err ? " (Last Known)" : ""}]\n${err ? settings.lastKnownVersion || "Unavailable" : res.version}\n[MOTD]\n${err ? "Unavailable" : res.descriptionText}\`\`\``)
+                        .addField(`Server Status`, `\`\`\`ini\n[Version${err ? " (Last Known)" : ""}]\n${err ? settings.lastKnownVersion || "Unavailable" : res.version}\n[MOTD]\n${err ? "Unavailable" : res.descriptionText}${mods ? `\n[Mods]\n${mods}` : ""}\`\`\``)
                         .addField(`Player Status`, `\`\`\`ini\n[Online (${err ? "" : res.onlinePlayers})]\n${err ? "Unavailable" : names.sort().join('\n') || 'None'}\n[Offline]\n${err ? "Unavailable" : playerNames.length - names.length}\`\`\``)
 
                     channel.messages.fetch(settings.messageID).then(m => {

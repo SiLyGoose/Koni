@@ -37,4 +37,11 @@ module.exports = bot => {
             ? text.replace(/` /g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203))
             : text;
     }
+
+    bot.objectEmpty = obj => {
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key)) return false;
+        }
+        return true;
+    }
 }
