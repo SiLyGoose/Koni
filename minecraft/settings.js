@@ -17,6 +17,7 @@ module.exports = {
 
         var tempvar = [{ EMOJI: '❗', SETTING: 'Prefix', NAME: 'prefix', DESCRIPTION: 'Changes the prefix for the server', EX: '(any prefix)', UPDATE: 'Any characters up to length 4', VALID: /^\S{1,4}/ },
         { EMOJI: '🔢', SETTING: 'IP Address', NAME: 'ipaddr', DESCRIPTION: 'Sets the MC IP Address for the server', EX: 'x.x.x.x', UPDATE: 'Valid IP Address (formatted x.x.x.x)', VALID: /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/ },
+        { EMOJI: '🔌', SETTING: 'Port', NAME: 'port', DESCRIPTION: 'Changes the default MC port for the server', EX: '(any port)', UPDATE: 'Valid Port Number', VALID: /^\d{1,5}$/ },
         { EMOJI: '📳', SETTING: 'Notifications', NAME: 'notifs', DESCRIPTION: 'Toggles server notifications', EX: 'on/off', UPDATE: 'on/off', VALID: /(on|off|true|false)/i },
         { EMOJI: '📃', SETTING: 'Notification Channel', NAME: 'channelID', DESCRIPTION: 'Sets the channel for server notifications', EX: 'channel id/name', UPDATE: 'Any channel id/mention', VALID: /\d{18}/g },
         { EMOJI: '🇦', SETTING: 'Add Players', NAME: 'add', DESCRIPTION: 'Adds players to the `status` popup (CASE SENSITIVE)', EX: 'ign name', UPDATE: 'MC ign and IRL name', VALID: /\w+\s\w+/g },

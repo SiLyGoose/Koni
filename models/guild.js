@@ -9,6 +9,9 @@ const guildSchema = mongoose.Schema({
     ipaddr: {
         type: String, default: config.ipaddr
     },
+    port: {
+        type: Number, default: config.port
+    },
     channelID: {
         type: String, default: config.channelID
     },
