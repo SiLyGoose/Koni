@@ -24,7 +24,7 @@ module.exports = {
                 }
             }
 
-            if (res.modList.length) {
+            if (res.modList) {
                 for (let l = 0; l < res.modList.length; l++) {
                     if (res.modList[l]) mods++;
                 }

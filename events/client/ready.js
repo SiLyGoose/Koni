@@ -26,7 +26,7 @@ module.exports = async bot => {
                                 names.push(filter[0] ? filter[0].irl : playerName);
                             }
                         }
-                        if (res.modList.length) {
+                        if (res.modList) {
                             for (let l = 0; l < res.modList.length; l++) mods++;
                         }
                     }
