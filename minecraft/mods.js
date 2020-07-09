@@ -11,7 +11,7 @@ module.exports = {
             if (err) { console.log(err); return message.channel.send("**💥 Error connecting to server, please try again shortly!**"); }
 
             let mods = [];
-            if (res.modList.length) {
+            if (res.modList) {
                 for (let i = 0; i < res.modList.length; i++) {
                     mods.push(`[»] ${res.modList[i].modid} (${res.modList[i].version})`);
                 }
