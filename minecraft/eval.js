@@ -20,6 +20,6 @@ module.exports = {
             } catch (err) {
                 return message.channel.send(`\`ERROR\` \`\`\`xl\n${bot.clean(err)}\n\`\`\``)
             }
-        }
+        } else return message.channel.send(`¯\\_(ツ)_/¯`)
     }
 }
