@@ -33,7 +33,7 @@ module.exports = {
         if (selected) {
             if (!newSetting) {
                 if (setting === 'reset') {
-                    await message.channel.send(`**⚠️ Reset all settings to default? (y/n) \`10s\`**`)
+                    let instanceMsg = await message.channel.send(`**⚠️ Reset all settings to default? (y/n) \`10s\`**`)
                     const collector = new Discord.MessageCollector(message.channel, filter => filter.author.id === message.author.id, { time: 10000, max: 1 });
 
                     collector.on('collect', m => {
@@ -45,6 +45,10 @@ module.exports = {
                             return m.react('✅');
                         }
                     });
+
+                    collector.on('end', m => {
+                        if (!collector.received) return instanceMsg.react('❌');
+                    })
                 } else {
                     Embed.fields = [];
                     let currentSetting = "";
