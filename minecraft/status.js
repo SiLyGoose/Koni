@@ -32,7 +32,7 @@ module.exports = {
 
             message.channel.messages.fetch(settings.messageID).then(m => {
                 m.delete();
-            });
+            }).catch(console.error);
 
             return message.channel.send(Embed.setTitle(`${res.host}:${res.port}`)
                 .addField(`Server Status`, `\`\`\`ini\n[Version]\n${res.version}\n[MOTD]\n${res.descriptionText}${mods ? `\n[Mods]\n${mods}` : ""}\`\`\``)
