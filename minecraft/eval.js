@@ -4,7 +4,6 @@ module.exports = {
         name: "eval"
     },
     run: async (bot, message, args) => {
-
         if (message.author.id === '257214680823627777') {
             try {
                 const code = args.join(" ");

@@ -1,4 +1,5 @@
-const ping = require('minecraft-server-util'), { BOT_HEX } = require('../botconfig.json'), Embed = new (require('discord.js')).MessageEmbed().setColor(BOT_HEX);
+const ping = require('minecraft-server-util'), { BOT_HEX } = require('../botconfig.json'),
+    Embed = new (require('discord.js')).MessageEmbed().setColor(BOT_HEX);
 module.exports = {
     config: {
         name: "status",
@@ -37,7 +38,9 @@ module.exports = {
             return message.channel.send(Embed.setTitle(`${res.host}:${res.port}`)
                 .addField(`Server Status`, `\`\`\`ini\n[Version]\n${res.version}\n[MOTD]\n${res.descriptionText}${mods ? `\n[Mods]\n${mods}` : ""}\`\`\``)
                 .addField(`Player Status`, `\`\`\`ini\n[Online (${res.onlinePlayers})]\n${names.sort().join('\n') || 'None'}\n[Offline]\n${playerNames.length - names.length}\`\`\``)
-                .setThumbnail(err || res.favicon.length > 2048 ? "https://lh3.googleusercontent.com/VSwHQjcAttxsLE47RuS4PqpC4LT7lCoSjE7Hx5AW_yCxtDvcnsHHvm5CTuL5BPN-uRTP" : res.favicon))
+                .setThumbnail(err || res.favicon.length > 2048
+                    ? "https://lh3.googleusercontent.com/VSwHQjcAttxsLE47RuS4PqpC4LT7lCoSjE7Hx5AW_yCxtDvcnsHHvm5CTuL5BPN-uRTP"
+                    : res.favicon))
                 .then(async msg => {
                     await bot.updateGuild(message.guild, { messageID: msg.id, lastKnownVersion: err ? settings.lastKnownVersion : res.version });
                 });

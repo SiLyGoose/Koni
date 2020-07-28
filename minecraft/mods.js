@@ -1,4 +1,5 @@
-const ping = require('minecraft-server-util'), { BOT_HEX } = require('../botconfig.json'), Embed = new (require('discord.js')).MessageEmbed().setColor(BOT_HEX);
+const ping = require('minecraft-server-util'), { BOT_HEX } = require('../botconfig.json'),
+    Embed = new (require('discord.js')).MessageEmbed().setColor(BOT_HEX);
 module.exports = {
     config: {
         name: 'mods',
@@ -17,7 +18,9 @@ module.exports = {
                 }
             }
 
-            Embed.setThumbnail(err || res.favicon.length > 2048 ? "https://lh3.googleusercontent.com/VSwHQjcAttxsLE47RuS4PqpC4LT7lCoSjE7Hx5AW_yCxtDvcnsHHvm5CTuL5BPN-uRTP" : res.favicon)
+            Embed.setThumbnail(err || res.favicon.length > 2048
+                ? "https://lh3.googleusercontent.com/VSwHQjcAttxsLE47RuS4PqpC4LT7lCoSjE7Hx5AW_yCxtDvcnsHHvm5CTuL5BPN-uRTP"
+                : res.favicon)
                 .setTitle(`Mod List`)
                 .addField(`Mods`, !mods.length ? "None" : `\`\`\`ini\n${mods.sort().join('\n')}\`\`\``)
 

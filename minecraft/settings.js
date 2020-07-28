@@ -1,4 +1,5 @@
-const Discord = require('discord.js'), { BOT_HEX } = require('../botconfig'), Embed = new Discord.MessageEmbed().setColor(BOT_HEX);
+const Discord = require('discord.js'), { BOT_HEX } = require('../botconfig'), Embed = new Discord.MessageEmbed().setColor(BOT_HEX),
+    guildSettings = require('../settings/guildSettings')
 module.exports = {
     config: {
         name: "settings",
@@ -15,14 +16,7 @@ module.exports = {
         Embed.setAuthor(`${message.guild.name} Settings`, message.guild.iconURL({ dynamic: true }));
         Embed.fields = [], Embed.description = null, Embed.thumbnail = null;
 
-        var tempvar = [{ EMOJI: '❗', SETTING: 'Prefix', NAME: 'prefix', DESCRIPTION: 'Changes the prefix for the server', EX: '(any prefix)', UPDATE: 'Any characters up to length 4', VALID: /^\S{1,4}/ },
-        { EMOJI: '🔢', SETTING: 'IP Address', NAME: 'ipaddr', DESCRIPTION: 'Sets the MC IP Address for the server', EX: 'x.x.x.x', UPDATE: 'Valid IP Address (formatted x.x.x.x)', VALID: /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/ },
-        { EMOJI: '🔌', SETTING: 'Port', NAME: 'port', DESCRIPTION: 'Changes the default MC port for the server', EX: '(any port)', UPDATE: 'Valid Port Number', VALID: /^\d{1,5}$/ },
-        { EMOJI: '📳', SETTING: 'Notifications', NAME: 'notifs', DESCRIPTION: 'Toggles server notifications', EX: 'on/off', UPDATE: 'on/off', VALID: /(on|off|true|false)/i },
-        { EMOJI: '📃', SETTING: 'Notification Channel', NAME: 'channelID', DESCRIPTION: 'Sets the channel for server notifications', EX: 'channel id/name', UPDATE: 'Any channel id/mention', VALID: /\d{18}/g },
-        { EMOJI: '🇦', SETTING: 'Add Players', NAME: 'add', DESCRIPTION: 'Adds players to the `status` popup (CASE SENSITIVE)', EX: 'ign name', UPDATE: 'MC ign and IRL name', VALID: /\w+\s\w+/g },
-        { EMOJI: '🇷', SETTING: 'Remove Players', NAME: 'remove', DESCRIPTION: 'Removes players from the `status` popup (CASE SENSITIVE)', EX: 'name', UPDATE: 'IRL name', VALID: /\w+/ },
-        { EMOJI: '♻️', SETTING: 'Reset', NAME: 'reset', DESCRIPTION: 'Resets server settings to default' }];
+        var tempvar = new guildSettings().CONFIGURATIONS;
 
         for (let i = 0; i < tempvar.length; i++) {
             Embed.addField(`${tempvar[i].EMOJI} ${tempvar[i].SETTING}`, `\`${settings.prefix}settings ${tempvar[i].NAME}\``, true);
