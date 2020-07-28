@@ -1,15 +1,14 @@
 const mongoose = require('mongoose');
-const { mongoURL } = require('../config/config.js');
 
 module.exports = {
-    init: () => {
+    init: ({ config }) => {
         const dbOptions = {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             poolSize: 10,
             connectTimeoutMS: 20000,
         }
-        mongoose.connect(mongoURL, dbOptions);
+        mongoose.connect(config.mongoURL, dbOptions);
         mongoose.Promise = global.Promise;
 
         mongoose.connection.on('connected', () => {
