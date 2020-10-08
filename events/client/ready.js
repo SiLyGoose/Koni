@@ -1,4 +1,5 @@
-const { BOT_HEX } = require('../../botconfig.json'), Embed = new (require('discord.js')).MessageEmbed().setColor(BOT_HEX),
+const { BOT_HEX } = require('../../botconfig.json'),
+    Embed = new (require('discord.js')).MessageEmbed().setColor(BOT_HEX),
     ping = require('minecraft-server-util');
 module.exports = async bot => {
     bot.user.setPresence({ activity: { name: `Mindcraft | ${bot.config.prefix}help`, type: 'WATCHING' }, status: 'idle' }).catch(console.error);
@@ -34,7 +35,7 @@ module.exports = async bot => {
                     Embed.setThumbnail(err || res.favicon.length > 2048 ? "https://lh3.googleusercontent.com/VSwHQjcAttxsLE47RuS4PqpC4LT7lCoSjE7Hx5AW_yCxtDvcnsHHvm5CTuL5BPN-uRTP" : res.favicon)
                         .setTitle(err ? "Server Down" : `${res.host}:${res.port}`)
                         .addField(`Server Status`, `\`\`\`ini\n[Version${err ? " (Last Known)" : ""}]\n${err ? settings.lastKnownVersion || "Unavailable" : res.version}\n[MOTD]\n${err ? "Unavailable" : res.descriptionText}${mods ? `\n[Mods]\n${mods}` : ""}\`\`\``)
-                        .addField(`Player Status`, `\`\`\`ini\n[Online (${err ? "" : Math.max(res.onlinePlayers, 0)})]\n${err ? "Unavailable" : names.sort().join('\n') || 'None'}\n[Offline]\n${err ? "Unavailable" : Math.max(playerNames.length - names.length, 0)}\`\`\``)
+                        .addField(`Player Status`, `\`\`\`ini\n[Online (${err ? "" : res.onlinePlayers})]\n${err ? "Unavailable" : names.sort().join('\n') || 'None'}\`\`\``) /*\n[Offline]\n${err ? "Unavailable" : Math.max(playerNames.length - names.length, 0)}*/
 
                     channel.messages.fetch(settings.messageID).then(m => {
                         if (m.embeds[0].fields[0].value != Embed.fields[0].value ||

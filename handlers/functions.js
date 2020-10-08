@@ -1,5 +1,8 @@
 const { Guild } = require('../models/app')
 const mongoose = require('mongoose');
+const ping = require('minecraft-server-util');
+const { BOT_HEX } = require('../botconfig.json')
+const Embed = new (require('discord.js')).MessageEmbed().setColor(BOT_HEX);
 module.exports = bot => {
     bot.getGuild = async guild => {
         let data = await Guild.findOne({ guildID: guild.id });
