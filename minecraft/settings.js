@@ -69,9 +69,12 @@ module.exports = {
                         else if (selected.NAME === 'add' || selected.NAME === 'remove') {
                             let guild = await bot.getGuild(message.guild);
                             let userList = guild.userList || [];
-                            let arguments = newSetting.split(' ');
-                            var userObject = { ign: arguments[0], irl: arguments[1] };
-                            userList.push(userObject);
+                            let arguments = newSetting.split(',');
+                            for (let i = 0; i < arguments.length; i++) {
+                                let player = arguments[i].split(' ');
+                                var userObject = { ign: player[0], irl: player[1] };
+                                userList.push(userObject);
+                            }
                             let names = "";
                             for (let i = 0; i < userList.length; i++) names += `${userList[i].ign} (${userList[i].irl})` + (i + 1 >= userList.length ? " " : ", ");
                             await bot.updateGuild(message.guild, { userList: userList });

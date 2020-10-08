@@ -34,7 +34,7 @@ module.exports = async bot => {
                     Embed.setThumbnail(err || res.favicon.length > 2048 ? "https://lh3.googleusercontent.com/VSwHQjcAttxsLE47RuS4PqpC4LT7lCoSjE7Hx5AW_yCxtDvcnsHHvm5CTuL5BPN-uRTP" : res.favicon)
                         .setTitle(err ? "Server Down" : `${res.host}:${res.port}`)
                         .addField(`Server Status`, `\`\`\`ini\n[Version${err ? " (Last Known)" : ""}]\n${err ? settings.lastKnownVersion || "Unavailable" : res.version}\n[MOTD]\n${err ? "Unavailable" : res.descriptionText}${mods ? `\n[Mods]\n${mods}` : ""}\`\`\``)
-                        .addField(`Player Status`, `\`\`\`ini\n[Online (${err ? "" : res.onlinePlayers})]\n${err ? "Unavailable" : names.sort().join('\n') || 'None'}\n[Offline]\n${err ? "Unavailable" : playerNames.length - names.length}\`\`\``)
+                        .addField(`Player Status`, `\`\`\`ini\n[Online (${err ? "" : Math.max(res.onlinePlayers, 0)})]\n${err ? "Unavailable" : names.sort().join('\n') || 'None'}\n[Offline]\n${err ? "Unavailable" : Math.max(playerNames.length - names.length, 0)}\`\`\``)
 
                     channel.messages.fetch(settings.messageID).then(m => {
                         if (m.embeds[0].fields[0].value != Embed.fields[0].value ||
