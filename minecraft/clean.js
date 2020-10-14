@@ -5,7 +5,7 @@ module.exports = {
     },
     run: async (bot, message, args, { prefix }) => {
         message.channel.messages.fetch().then(x => {
-            let botu = x.filter(m => m.author.id === bot.user.id || m.content.toLowerCase().startsWith(prefix)).array();
+            let botu = x.filter(m => m.author.id === bot.user.id || m.content.toLowerCase().startsWith(prefix) || m.content.startsWith(`<@!${bot.user.id}>`)).array();
             if (!(botu.length - 1)) return message.channel.send(`❌ No messages to clean!`);
 
             for (let i = 0; i < botu.length; i++) {
@@ -24,9 +24,7 @@ module.exports = {
 
             message.channel.bulkDelete(botu);
             message.channel.send(`✅ Cleaned \`${botu.length - 1}\` messages!`).then(msg => {
-                setTimeout(() => {
-                    msg.delete();
-                }, 2000)
+                msg.delete({ timeout: 2000 });
             });
         });
     }
