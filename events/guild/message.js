@@ -1,9 +1,11 @@
 module.exports = async (bot, message) => {
     if (message.author.bot) return;
-    if (message.channel.type === "dm")
-        return message.author.send('<:nessacringe:757806405657952267>').then(x => {
-            x.channel.recipient.send(`**Please use me in a designated server instead. ✌️**`);
+    if (message.channel.type === "dm") {
+        let random = Math.floor(Math.random() * 2);
+        return message.author.send(random ? '<:nessacringe:757806405657952267>' : '<:ohBoy:712048274709938298>').then(x => {
+            x.channel.recipient.send(random ? `**Please use me in a designated server instead. ✌️**` : `**Use me in a designated server you filthy fkn mortal. <:HandsUp:591111022551760907>**`);
         });
+    }
     // return message.author.send('**❌ Please use me in a designated server!**');
 
     const settings = await bot.getGuild(message.guild);
