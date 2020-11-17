@@ -26,6 +26,15 @@ const guildSchema = mongoose.Schema({
     },
     userList: {
         type: Array, default: config.userList
+    },
+    vpn: {
+        type: Boolean, default: config.vpn
+    },
+    user: {
+        type: String, default: config.user
+    },
+    password: {
+        type: String, default: config.password
     }
 });
 

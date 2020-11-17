@@ -9,5 +9,8 @@ module.exports = {
     messageID: "",
     lastKnownVersion: "",
     notifications: false,
-    userList: []
+    userList: [],
+    // vpn: false,
+    // user: "",
+    // password: ""
 }

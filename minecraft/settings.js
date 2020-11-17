@@ -64,8 +64,7 @@ module.exports = {
             } else {
                 try {
                     if (selected.VALID.test(newSetting)) {
-
-                        if (selected.NAME === 'notifs') newSetting = /(true|on)/i.test(newSetting) ? true : false;
+                        if (selected.NAME === 'notifs' || selected.NAME === 'vpn') newSetting = /(true|on)/i.test(newSetting) ? true : false;
                         else if (selected.NAME === 'add' || selected.NAME === 'remove') {
                             let guild = await bot.getGuild(message.guild);
                             let userList = guild.userList || [];
