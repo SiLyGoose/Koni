@@ -11,6 +11,6 @@ module.exports = class guildSettings {
         this.ADD = new (require('./add'))
         this.REMOVE = new (require('./remove'))
         this.RESET = new (require('./reset'))
-        this.CONFIGURATIONS = [this.PREFIX, this.IPADDR, this.PORT, this.VPN, this.USER, this.PASSWORD, this.NOTIFS, this.CHANNELID, this.ADD, this.REMOVE, this.RESET]
+        this.CONFIGURATIONS = [this.PREFIX, this.IPADDR, this.PORT, /*this.VPN, this.USER, this.PASSWORD,*/ this.NOTIFS, this.CHANNELID, this.ADD, this.REMOVE, this.RESET]
     }
 }
