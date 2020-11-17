@@ -46,7 +46,7 @@ module.exports = {
                 } else {
                     Embed.fields = [];
                     let currentSetting = "";
-                    let settingName = settings[selected.NAME.replace(/(add|remove){1}(\s|)/gi, "userList")];
+                    let settingName = settings[selected.NAME.replace(/^(add|remove){1}(\s|)/gi, "userList")];
                     if (Array.isArray(settingName)) {
                         for (let i = 0; i < settingName.length; i++) {
                             currentSetting += `${settingName[i].ign} (${settingName[i].irl})` + (i + 1 >= settingName.length ? "" : ", ");
