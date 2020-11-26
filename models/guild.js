@@ -27,7 +27,7 @@ const guildSchema = mongoose.Schema({
     userList: {
         type: Array, default: config.userList
     },
-    vpn: {
+    /*vpn: {
         type: Boolean, default: config.vpn
     },
     user: {
@@ -35,7 +35,7 @@ const guildSchema = mongoose.Schema({
     },
     password: {
         type: String, default: config.password
-    }
+    }*/
 });
 
 module.exports = mongoose.model('Guild', guildSchema);
