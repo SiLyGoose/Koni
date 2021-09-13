@@ -15,8 +15,6 @@ module.exports = {
 		if (!command) return;
 
 		try {
-			
-
 			const { id, token } = interaction;
 			const json = {
 				type: 5,
