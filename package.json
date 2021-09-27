@@ -21,6 +21,9 @@
     "dev": "nodemon index.js",
     "start": "node index.js"
   },
+  "engines": {
+    "node": "16.x"
+  },
   "devDependencies": {
     "@types/node": "^16.10.1"
   }
