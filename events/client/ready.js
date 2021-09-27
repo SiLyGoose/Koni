@@ -36,7 +36,7 @@ module.exports = {
 				}
 			}
 
-			if (time === "0:00:00" || (parseInt(timeCheckAlarm[timeCheckAlarm.length - 1].split(":")[0]) < now.hours() && !reset)) {
+			if (time === "0:00:00" || (parseInt(timeCheckAlarm[timeCheckAlarm.length - 1]?.split(":")[0]) < now.hours() && !reset)) {
 				todaySchedule = new Map();
 				timeCheckAlarm = [];
 				for (const { courses, userID } of users) {
