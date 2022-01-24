@@ -1,6 +1,6 @@
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
-const rest = new REST({ version: "9" }).setToken(process.env.token);
+const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 const moment = require("moment");
 const tz = require("moment-timezone");
 module.exports = {

@@ -97,7 +97,7 @@ module.exports = {
 		}
 
 		for (let i = 0; i < courses.length; i++) {
-			if (courses[i].name === course.name) {
+			if (courses[i].name === course.name.toUpperCase()) {
 				registered = { course, i };
 				break;
 			}
@@ -146,7 +146,7 @@ module.exports = {
 			courses,
 		});
 		return interaction.client.sendMessageChannel(
-			`**✅ Successfully added ${course.name}!**`,
+			`**✅ Successfully added ${course.name.toUpperCase()}!**`,
 			interaction.channel
 		);
 	},

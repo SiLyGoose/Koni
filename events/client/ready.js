@@ -43,6 +43,7 @@ module.exports = {
 					if (courses.length) {
 						let todayCourses = [],
 							timeStart;
+						console.log(`Adding courses for user ${userID}`);
 						for (let i = 0; i < courses.length; i++) {
 							let course = courses[i];
 							if (bot.Util.convertNumToArray(course.days).some((x) => x === +today)) {
@@ -52,6 +53,8 @@ module.exports = {
 									.subtract(5, "minutes")
 									.format("H:mm:ss");
 								timeCheckAlarm.push(timeStart);
+								console.log(`	> ${course.name} at ${course.timestart}`);
+								console.log(`		> Alert at ${timeStart}`)
 							}
 						}
 						todaySchedule.set(`${userID}//${timeStart}`, todayCourses);
@@ -105,6 +108,7 @@ module.exports = {
 							);
 
 							if (!timeCheckAlarm.shift()) reset = !reset;
+							console.log(`SUCCESS: Alert at ${key}`);
 							alert = !alert;
 							break;
 						}
